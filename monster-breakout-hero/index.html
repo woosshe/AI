@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>몬스터 벽돌깨기 히어로 — Prototype</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<header>
+  <h1>몬스터 벽돌깨기 히어로</h1>
+</header>
+
+<main style="position: relative;">
+  <canvas id="gameCanvas" width="812" height="600"></canvas> <!-- Canvas width adjusted to 812 -->
+
+  <div id="callBallsBtnContainer" style="display: none; position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);">
+    <button id="callBallsBtn" style="padding: 10px 20px; background: #ef476f; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.5);">공 부르기 (강제 회수)</button>
+  </div>
+
+  <div id="levelUpModal">
+    <h2>LEVEL UP!</h2>
+    <p>스킬을 선택하세요</p>
+    <div id="upgradeChoices">
+      <!-- Upgrade buttons will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <div id="hud">
+    <button id="startBtn">게임 시작</button>
+    <span id="score">점수: 0</span>
+    <span id="turns">턴: 0</span>
+    <span id="level">레벨: 1</span>
+    <span id="xp">XP: 0 / 1000</span>
+    <span id="hp">HP: 1000 / 1000</span> <!-- Added HP display -->
+    <span id="stats">공격력: 10 | 공: 5</span>
+  </div>
+</main>
+
+<script src="js/game.js"></script>
+</body>
+</html>
