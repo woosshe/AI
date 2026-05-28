@@ -1,0 +1,11 @@
+/* common.css - 모든 프로젝트 공통 스타일 */
+:root {
+    --bg-color: #0d0d0d;
+    --text-color: #ffffff;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: #000;
+}

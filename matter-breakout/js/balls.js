@@ -32,7 +32,10 @@ window.Balls = {
             friction: 0,
             frictionAir: 0,
             inertia: Infinity,
-            label: 'ball'
+            label: 'ball',
+            collisionFilter: {
+                group: -1 // 음수 그룹이 같으면 서로 충돌하지 않고 관통함
+            }
         });
 
         const velocity = {

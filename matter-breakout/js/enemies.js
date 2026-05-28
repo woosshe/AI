@@ -4,7 +4,7 @@
 window.Enemies = {
     list: [],
     gridSize: 40,
-    cols: 8,
+    cols: 20, // 800(WIDTH) / 40(gridSize) = 20으로 수정하여 화면 전체 활용
     
     ENEMY_TYPES: {
         NORMAL: { hp: 10, score: 100, color: 'silver', size: [40, 40], weight: 0.6 },
@@ -16,7 +16,7 @@ window.Enemies = {
 
     init() {
         for(let i=0; i<3; i++) {
-            this.spawnRow(i * (this.gridSize + 10) + 100);
+            this.spawnRow(i * this.gridSize + 100);
         }
     },
 
@@ -29,8 +29,21 @@ window.Enemies = {
         const occupied = new Array(this.cols).fill(false);
         const hpBonus = Math.floor(Game.turns / 5) * Game.ENEMY_HP_BONUS;
 
-        for (let i = 0; i < this.cols; i++) {
-            if (occupied[i] || Math.random() < 0.3) continue;
+        // Determine a random starting column for this row's generation
+        // This helps to shift the "density" of enemies horizontally
+        const randomStartCol = Math.floor(Math.random() * this.cols);
+
+        // Iterate through columns, starting from randomStartCol and wrapping around
+        for (let k = 0; k < this.cols; k++) {
+            const i = (randomStartCol + k) % this.cols; // The actual column index we are trying to fill
+
+            if (occupied[i]) continue; // If this cell is already occupied by a previously placed larger enemy
+
+            // Decide whether to place an enemy or leave this spot empty
+            if (Math.random() < 0.3) { // 30% chance to leave this single grid cell empty
+                occupied[i] = true; // Mark this cell as intentionally empty
+                continue;
+            }
 
             let type = this.getRandomType();
             
@@ -48,12 +61,25 @@ window.Enemies = {
             const h = sizeData[1];
             const colSpan = Math.ceil(w / this.gridSize);
             
-            if (i + colSpan > this.cols) continue;
+            // 해당 위치에 적이 들어갈 수 있는지(화면 밖으로 나가지 않는지, 다른 적과 겹치지 않는지) 확인합니다.
+            let canFit = true;
+            if (i + colSpan > this.cols) {
+                canFit = false;
+            } else {
+                for (let j = 0; j < colSpan; j++) {
+                    if (occupied[i + j]) {
+                        canFit = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!canFit) continue;
 
             const x = i * this.gridSize + w / 2;
             const hp = type.hp + hpBonus;
 
-            const brick = Bodies.rectangle(x, y, w - 4, h - 4, {
+            const brick = Bodies.rectangle(x, y, w, h, {
                 isStatic: true,
                 label: 'enemy',
                 plugin: { hp, maxHp: hp, score: type.score, color: type.color, flash: 0, targetY: y }
@@ -61,6 +87,8 @@ window.Enemies = {
 
             this.list.push(brick);
             Composite.add(Game.engine.world, brick);
+            
+            // Mark all cells occupied by this new enemy
             for(let j=0; j<colSpan; j++) occupied[i+j] = true;
         }
     },
@@ -89,7 +117,7 @@ window.Enemies = {
     },
 
     moveRowsDown() {
-        const step = this.gridSize + 10;
+        const step = this.gridSize;
         this.list.forEach(enemy => {
             enemy.plugin.targetY += step; // 목표 지점 업데이트
             if (enemy.plugin.targetY > Player.y - 20) {
@@ -143,8 +171,8 @@ window.Enemies = {
     draw(ctx) {
         this.list.forEach(enemy => {
             const { x, y } = enemy.position;
-            const w = enemy.bounds.max.x - enemy.bounds.min.x - 4;
-            const h = enemy.bounds.max.y - enemy.bounds.min.y - 4;
+            const w = enemy.bounds.max.x - enemy.bounds.min.x;
+            const h = enemy.bounds.max.y - enemy.bounds.min.y;
 
             ctx.fillStyle = enemy.plugin.flash > 0 ? '#ff0000' : enemy.plugin.color;
             ctx.fillRect(x - w/2, y - h/2, w, h);

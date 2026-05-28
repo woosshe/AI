@@ -67,7 +67,7 @@ window.Game = {
             const rect = this.canvas.getBoundingClientRect();
             const mx = e.clientX - rect.left;
             const my = e.clientY - rect.top;
-            this.aimAngle = Math.atan2(my - Player.y, mx - Player.x);
+            this.aimAngle = Math.atan2(my - (Player.y - 20), mx - Player.x);
         });
 
         this.canvas.addEventListener('click', () => {
@@ -147,8 +147,8 @@ window.Game = {
     drawAimLine() {
         this.ctx.beginPath();
         this.ctx.setLineDash([5, 5]);
-        this.ctx.moveTo(Player.x, Player.y);
-        this.ctx.lineTo(Player.x + Math.cos(this.aimAngle) * 100, Player.y + Math.sin(this.aimAngle) * 100);
+        this.ctx.moveTo(Player.x, Player.y - 20);
+        this.ctx.lineTo(Player.x + Math.cos(this.aimAngle) * 100, (Player.y - 20) + Math.sin(this.aimAngle) * 100);
         this.ctx.strokeStyle = '#fff';
         this.ctx.stroke();
         this.ctx.setLineDash([]);
