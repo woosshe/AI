@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>벽돌깨기 - Matter.js</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- 상단 속도 및 상태 알림 -->
+        <div id="speed-indicator" style="display: none;">SPEED UP x5</div>
+
+        <div id="ui-layer">
+            <!-- 상단 경험치 바 -->
+            <div id="xp-bar-container"><div id="xp-bar"></div></div>
+
+            <div class="hud-top">
+                <div class="hud-item"><span class="label">SCORE</span><span id="score">0</span></div>
+                <div class="hud-item"><span class="label">LEVEL</span><span id="level">1</span></div>
+                <div class="hud-item"><span class="label">TURN</span><span id="turns">1</span></div>
+                <div class="hud-item"><span class="label">ATK</span><span id="atk">1</span></div>
+                <div class="hud-item"><span class="label">BALLS</span><span id="ball-count">1</span></div>
+            </div>
+        </div>
+
+        <!-- 공 부르기 버튼 (특정 조건 시 활성화) -->
+        <div id="call-balls-container" style="display: none;">
+            <button id="call-balls-btn">공 부르기 (강제 회수)</button>
+        </div>
+
+        <!-- 레벨업 선택 모달 -->
+        <div id="levelUpModal">
+            <div class="modal-header">
+                <h2>LEVEL UP!</h2>
+                <p>강화할 스킬이나 아이템을 선택하세요</p>
+            </div>
+            <div id="upgradeChoices"></div>
+        </div>
+    </div>
+    
+    <!-- 외부 라이브러리 및 공통 리소스 -->
+    <script src="../common/matter-js/matter.min.js"></script>
+    <script src="../common/common.js"></script>
+
+    <!-- 게임 시스템 모듈 -->
+    <script src="./js/player.js"></script>
+    <script src="./js/enemies.js"></script>
+    <script src="./js/balls.js"></script>
+    <script src="./js/leveling.js"></script>
+    <script src="./js/skills.js"></script>
+    <script src="./js/items.js"></script>
+    <script src="./js/game.js"></script>
+</body>
+</html>

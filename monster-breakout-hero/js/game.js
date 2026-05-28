@@ -674,9 +674,9 @@
     const elapsedSinceFire = Date.now() - turnStartTime;
     if (running && turnStartTime !== 0 && elapsedSinceFire > 0 && !paused) {
       let speedText = '';
-      if (elapsedSinceFire > 10000) {
+      if (elapsedSinceFire > 20000) {
         speedText = 'SPEED UP x10';
-      } else if (elapsedSinceFire > 5000) {
+      } else if (elapsedSinceFire > 10000) {
         speedText = 'SPEED UP x5';
       }
       if (speedText) {
@@ -1046,8 +1046,8 @@
     update();
     const elapsedSinceFire = Date.now() - turnStartTime;
     if (running && turnStartTime !== 0 && !paused) {
-      if (elapsedSinceFire > 10000) for (let i = 0; i < 9; i++) update();
-      else if (elapsedSinceFire > 5000) for (let i = 0; i < 4; i++) update();
+      if (elapsedSinceFire > 20000) for (let i = 0; i < 9; i++) update();
+      else if (elapsedSinceFire > 10000) for (let i = 0; i < 4; i++) update();
     }
     draw(); requestAnimationFrame(loop);
   }
